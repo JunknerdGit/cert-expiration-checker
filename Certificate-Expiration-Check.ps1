@@ -39,11 +39,14 @@ PARAMETER: -Cutoff "ReplaceWithNumber"
 PARAMETER: -IgnoreSelfSignedCerts
     Ignore certificates where the subject of the certificate and the issuer of the certificate are identical.
 
+SCRIPT VARIABLES:
+    outputCustomFieldName - Name of the multiline custom field to write expired certificate information
+
 .OUTPUTS
     None
 .NOTES
     Minimum OS Architecture Supported: Windows 7, Server 2008
-    Release Notes: Initial Release
+    Release Notes: Added script variable for output custom field name
 #>
 
 [CmdletBinding()]
@@ -67,7 +70,7 @@ begin {
     if ($env:daysUntilExpiration -and $env:daysUntilExpiration -notlike "null") { $DaysUntilExpiration = $env:daysUntilExpiration }
     if ($env:certificateMustBeOlderThanXDays -and $env:certificateMustBeOlderThanXDays -notlike "null") { $MustBeValidBefore = $env:certificateMustBeOlderThanXDays }
     if ($env:skipCertsExpiredForMoreThanXDays -and $env:skipCertsExpiredForMoreThanXDays -notlike "null") { $Cutoff = $env:skipCertsExpiredForMoreThanXDays }
-    if ($env:outputCustomField -and $env:outputCustomField -notlike "null") { $OutputCustomField = $env:outputCustomField }
+    if ($env:outputCustomFieldName -and $env:outputCustomFieldName -notlike "null") { $OutputCustomField = $env:outputCustomFieldName }
 
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
